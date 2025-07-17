@@ -1,3 +1,4 @@
+# === MAVEN GENERATED FILES ===
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -10,80 +11,51 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-# Eclipse m2e generated files
-# Eclipse Core
+# === IDE CONFIGURATIONS ===
 .project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
-.vscode
+.idea/
+.vscode/
+*.iml
+.settings/
 
-# === BACKEND SPRING BOOT ===
-/backend-springboot/target/
-!/backend-springboot/src/
-/backend-springboot/.mvn/
+# === BACKEND SPRING BOOT (specifici) ===
+backend-springboot/.mvn/
 backend-springboot/mvnw
 backend-springboot/mvnw.cmd
-backend-springboot/.idea/
-backend-springboot/*.iml
-backend-springboot/.classpath
-backend-springboot/.project
-backend-springboot/.settings/
 
-# === FRONTEND EXPO / REACT NATIVE ===
-/frontend-expo/node_modules/
-/frontend-expo/.expo/
-/frontend-expo/.expo-shared/
-/frontend-expo/.vscode/
-/frontend-expo/dist/
-/frontend-expo/web-build/
-/frontend-expo/.DS_Store
+# === FRONTEND EXPO/REACT NATIVE ===
+frontend-expo/.expo/
+frontend-expo/.expo-shared/
+frontend-expo/dist/
+frontend-expo/web-build/
+frontend-expo/.kotlin/
+frontend-expo/expo-env.d.ts
+frontend-expo/.metro-health-check*
 
-# === LOGS ===
-*.log
-*.tmp
-
-# === SYSTEM FILES ===
-.DS_Store
-Thumbs.db
-
-# === ENV VARIABLES ===
-**/.env
-**/.env.*
-
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+# === DEPENDENCIES & BUILD ARTIFACTS ===
 node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.tsbuildinfo
 
-# macOS
-.DS_Store
-*.pem
-
-# local env files
+# === ENVIRONMENT VARIABLES ===
+**/.env
+**/.env.*
 .env*.local
 
-# typescript
-*.tsbuildinfo
+# === LOGS & TEMPORARY FILES ===
+*.log
+*.tmp
+*.orig.*
+
+# === SYSTEM & CERTIFICATE FILES ===
+.DS_Store
+Thumbs.db
+*.pem
+*.p8
+*.p12
+*.key
+*.jks
+*.mobileprovision
