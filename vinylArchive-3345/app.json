@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.digias.archive-3345",
+      "bundleIdentifier": "com.digias.vinylarchive",
       "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
       },
-      "package": "com.digias.archive-3345",
+      "package": "com.digias.vinylarchive",
       "softwareKeyboardLayoutMode": "pan"
     },
     "androidStatusBar": {
