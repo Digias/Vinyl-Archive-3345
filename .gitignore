@@ -1,0 +1,51 @@
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+.vscode
+
+# === BACKEND SPRING BOOT ===
+/backend-springboot/target/
+!/backend-springboot/src/
+/backend-springboot/.mvn/
+backend-springboot/mvnw
+backend-springboot/mvnw.cmd
+backend-springboot/.idea/
+backend-springboot/*.iml
+backend-springboot/.classpath
+backend-springboot/.project
+backend-springboot/.settings/
+
+# === FRONTEND EXPO / REACT NATIVE ===
+/frontend-expo/node_modules/
+/frontend-expo/.expo/
+/frontend-expo/.expo-shared/
+/frontend-expo/.vscode/
+/frontend-expo/dist/
+/frontend-expo/web-build/
+/frontend-expo/.DS_Store
+
+# === LOGS ===
+*.log
+*.tmp
+
+# === SYSTEM FILES ===
+.DS_Store
+Thumbs.db
+
+# === ENV VARIABLES ===
+**/.env
+**/.env.*
