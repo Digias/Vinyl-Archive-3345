@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "JukeboxApp",
-    "slug": "JukeboxApp",
-    "version": "2.0.0",
+    "name": "vinyl-archive-3345",
+    "slug": "vinyl-archive-3345",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.digias.JukeboxApp",
+      "bundleIdentifier": "com.digias.archive-3345",
       "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
       },
-      "package": "com.digias.JukeboxApp",
+      "package": "com.digias.archive-3345",
       "softwareKeyboardLayoutMode": "pan"
     },
     "androidStatusBar": {

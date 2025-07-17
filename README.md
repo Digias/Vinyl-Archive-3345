@@ -1,4 +1,4 @@
-# 🎵 33⁄45 Archive App
+# 🎵 33⁄45 Vinyl Archive
 
 Una app React Native (Expo + TypeScript) per gestire la tua collezione di vinili e il Jukebox personale, con funzionalità di scambio vinili e navigazione semplice e intuitiva.
 
