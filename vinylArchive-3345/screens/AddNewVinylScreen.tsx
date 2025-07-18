@@ -13,7 +13,8 @@ import { Vinyl } from '../types';
 import { takePhoto, pickImage, saveImage } from '../utils/imageUtils';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import uuid from 'react-native-uuid';
-import globalStyles, { Colors, Typography } from '../styles/globalStyles';
+import globalStyles, { Colors } from '../styles/globalStyles';
+import { canSaveMoreVinyls } from '../utils/authUtils';
 
 interface Props {
   navigation: any;
@@ -26,14 +27,37 @@ export default function AddNewVinylScreen({ navigation }: Props) {
   const [sideBTitle, setSideBTitle] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
 
-
   const saveVinyl = async () => {
+    // Controlla se l'utente può aggiungere altri vinili
+    const canSaveMore = await canSaveMoreVinyls();
+    if (!canSaveMore) {
+      Alert.alert(
+        'Limite raggiunto',
+        'Hai raggiunto il limite massimo di 30 vinili senza account',
+        [
+          { 
+            text: 'Registrati', 
+            onPress: () => navigation.navigate('Register') 
+          },
+          { 
+            text: 'Accedi', 
+            onPress: () => navigation.navigate('Login') 
+          },
+          { 
+            text: 'Annulla', 
+            style: 'cancel'
+          }
+        ]
+      );
+      return;
+    }
+
     if (
       !artist.trim() ||
       !sideATitle.trim() ||
       !sideBTitle.trim()
     ) {
-      Alert.alert('Errore', 'Compila tutti i campi');
+      Alert.alert('Errore', 'Compila tutti i campi obbligatori');
       return;
     }
 
@@ -47,10 +71,9 @@ export default function AddNewVinylScreen({ navigation }: Props) {
       }
     }
 
-
     try {
       const newVinyl: Vinyl = {
-        id: uuid.v4(),
+        id: uuid.v4().toString(),
         artist: artist.trim(),
         year: year.trim() ? year.trim() : null,
         sideA: { title: sideATitle.trim() },
@@ -65,10 +88,10 @@ export default function AddNewVinylScreen({ navigation }: Props) {
       const json = await AsyncStorage.getItem('vinyls');
       const vinyls: Vinyl[] = json ? JSON.parse(json) : [];
 
-      const isDuplicate = vinyls.some(v =>
-        v.sideA.title.toLowerCase === newVinyl.sideA.title.toLowerCase &&
-        v.sideB.title.toLowerCase === newVinyl.sideB.title.toLowerCase &&
+      const isDuplicate = vinyls.some(v => 
         v.artist.toLowerCase() === newVinyl.artist.toLowerCase() &&
+        v.sideA.title.toLowerCase() === newVinyl.sideA.title.toLowerCase() &&
+        v.sideB.title.toLowerCase() === newVinyl.sideB.title.toLowerCase() &&
         v.year === newVinyl.year
       );
 
@@ -101,7 +124,12 @@ export default function AddNewVinylScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: 30 }}
+      >
         {/* Sezione immagine */}
         <View style={globalStyles.imageContainer}>
           {imageUri ? (

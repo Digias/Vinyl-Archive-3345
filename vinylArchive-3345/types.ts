@@ -16,3 +16,9 @@ export type Jukebox = {
   vinyls: Vinyl[];
   maxVinyls: number;
 };
+
+export type AuthContextType = {
+  isAuthenticated: boolean;
+  login: () => Promise<void>;
+  logout: () => Promise<void>;
+};

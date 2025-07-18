@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
-import { Alert } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import * as Updates from 'expo-updates';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeScreen from './screens/HomeScreen';
 import JukeboxScreen from './screens/JukeboxScreen';
@@ -17,75 +18,111 @@ import AddNewVinylScreen from './screens/AddNewVinylScreen';
 import EditRemoveVinylScreen from './screens/EditRemoveVinylScreen';
 import ManageVinylScreen from './screens/ManageVinylScreen';
 import EditVinylScreen from './screens/EditVinylScreen';
-
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import { Colors } from './styles/globalStyles';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function checkUpdate() {
+    async function initializeApp() {
       try {
+        // Controlla aggiornamenti
         const update = await Updates.checkForUpdateAsync();
         if (update.isAvailable) {
-          Alert.alert('Aggiornamento disponibile', 'Scaricamento aggiornamento...');
           await Updates.fetchUpdateAsync();
           await Updates.reloadAsync();
         }
       } catch (e) {
         console.error(e);
+      } finally {
+        setIsLoading(false);
       }
     }
-    checkUpdate();
-  }, []);
-  
-  // Imposta il colore della navigation bar su Android
-  React.useEffect(() => {
+    
+    initializeApp();
+    
+    // Imposta il colore della navigation bar su Android
     if (Platform.OS === 'android') {
-      NavigationBar.setBackgroundColorAsync('#121212');
+      NavigationBar.setBackgroundColorAsync(Colors.background);
       NavigationBar.setButtonStyleAsync('light');
     }
   }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ 
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: Colors.background 
+      }}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <StatusBar
           style="light"
-          backgroundColor="#121212"
+          backgroundColor={Colors.background}
           translucent={false}
         />
         <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#121212',
-          },
-          headerTintColor: '#e0e0e0',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 18,
-          },
-          headerTitleAlign: 'center',
-          // Aggiunge padding appropriato per Android
-          contentStyle: {
-            backgroundColor: '#121212',
-          },
-          // Disabilita il comportamento translucent su Android
-          ...(Platform.OS === 'android' && {
-            headerStatusBarHeight: 0,
-          }),
-        }}
-      >
+          initialRouteName="Home"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: Colors.background,
+            },
+            headerTintColor: Colors.textPrimary,
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerTitleAlign: 'center',
+            contentStyle: {
+              backgroundColor: Colors.background,
+            },
+            ...(Platform.OS === 'android' && {
+              headerStatusBarHeight: 0,
+            }),
+          }}
+        >
           <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
           <Stack.Screen name="Jukebox" component={JukeboxScreen} />
           <Stack.Screen name="Vinyl List" component={VinylListScreen} />
           <Stack.Screen name="Swap Vinyls" component={SwapVinylsScreen} />
-          <Stack.Screen name="Add Vinyl to Jukebox" component={AddVinylJukeboxScreen} />
+          <Stack.Screen 
+            name="Add Vinyl to Jukebox" 
+            component={AddVinylJukeboxScreen} 
+          />
           <Stack.Screen name="Add New Vinyl" component={AddNewVinylScreen} />
-          <Stack.Screen name="Edit Remove Vinyl" component={EditRemoveVinylScreen} />
+          <Stack.Screen 
+            name="Edit Remove Vinyl" 
+            component={EditRemoveVinylScreen} 
+            options={{ title: 'Modifica o Elimina Vinile' }}
+          />
           <Stack.Screen name="Edit Vinyl" component={EditVinylScreen} />
-          <Stack.Screen name="Manage Vinyl" component={ManageVinylScreen} />
+          <Stack.Screen 
+            name="Manage Vinyl" 
+            component={ManageVinylScreen} 
+            options={{ title: 'Gestione Vinili' }}
+          />
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen} 
+            options={{ title: 'Accedi' }} 
+          />
+          <Stack.Screen 
+            name="Register" 
+            component={RegisterScreen} 
+            options={{ title: 'Registrati' }} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
