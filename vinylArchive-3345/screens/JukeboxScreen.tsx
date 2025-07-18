@@ -88,7 +88,6 @@ export default function JukeboxScreen() {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <View style={globalStyles.container}>
-        <Text style={globalStyles.title}>🎵 Jukebox</Text>
 
         <TextInput
           style={globalStyles.searchInput}

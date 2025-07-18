@@ -93,25 +93,50 @@ export default function App() {
             }),
           }}
         >
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
-          <Stack.Screen name="Jukebox" component={JukeboxScreen} />
-          <Stack.Screen name="Vinyl List" component={VinylListScreen} />
-          <Stack.Screen name="Swap Vinyls" component={SwapVinylsScreen} />
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={{ title: '' }} 
+          />
+          <Stack.Screen 
+            name="Jukebox" 
+            component={JukeboxScreen} 
+            options={{ title: '🎵 Jukebox' }}
+          />
+          <Stack.Screen 
+            name="Vinyl List" 
+            component={VinylListScreen} 
+            options={{ title: 'Tutti i miei vinili' }}
+          />
+          <Stack.Screen 
+            name="Swap Vinyls" 
+            component={SwapVinylsScreen} 
+            options={{ title: 'Scambia Vinili' }}
+          />
           <Stack.Screen 
             name="Add Vinyl to Jukebox" 
             component={AddVinylJukeboxScreen} 
+            options={{ title: 'Aggiungi al tuo Jukebox' }}
           />
-          <Stack.Screen name="Add New Vinyl" component={AddNewVinylScreen} />
+          <Stack.Screen 
+            name="Add New Vinyl" 
+            component={AddNewVinylScreen} 
+            options={{ title: 'Aggiungi Nuovo Vinile' }}
+          />
           <Stack.Screen 
             name="Edit Remove Vinyl" 
             component={EditRemoveVinylScreen} 
-            options={{ title: 'Modifica o Elimina Vinile' }}
+            options={{ title: '✏️ Modifica o Elimina Vinile' }}
           />
-          <Stack.Screen name="Edit Vinyl" component={EditVinylScreen} />
+          <Stack.Screen 
+            name="Edit Vinyl" 
+            component={EditVinylScreen}
+            options={{ title: '✏️ Modifica Vinili' }}
+          />
           <Stack.Screen 
             name="Manage Vinyl" 
             component={ManageVinylScreen} 
-            options={{ title: 'Gestione Vinili' }}
+            options={{ title: '' }}
           />
           <Stack.Screen 
             name="Login" 

@@ -122,7 +122,7 @@ export default function SwapVinylsScreen() {
                 <TouchableOpacity
                   style={[
                     styles.vinylItem,
-                    selectedAddVinyl?.id === item.id  // Usa ID per la selezione
+                    selectedAddVinyl?.id === item.id
                       ? styles.selectedItem
                       : null,
                   ]}

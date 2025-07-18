@@ -83,7 +83,6 @@ export default function RemoveVinylScreen() {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* 3. Applica il padding personalizzato */}
       <View style={[globalStyles.container, { paddingBottom: androidPadding }]}>
-        <Text style={globalStyles.title}>Modifica o Elimina i vinili</Text>
 
         <TextInput
           style={globalStyles.searchInput}

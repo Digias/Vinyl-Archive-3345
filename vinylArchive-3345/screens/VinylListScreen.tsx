@@ -42,7 +42,6 @@ export default function VinylListScreen() {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <View style={globalStyles.container}>
-        <Text style={globalStyles.title}>Tutti i miei vinili</Text>
 
         <TextInput
           style={globalStyles.searchInput}
