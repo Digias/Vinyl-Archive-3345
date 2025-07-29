@@ -7,6 +7,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
 import { ActivityIndicator, View } from 'react-native';
 import * as Updates from 'expo-updates';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from './firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeScreen from './screens/HomeScreen';
@@ -26,30 +28,40 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    async function initializeApp() {
+    const authUnsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      
+      if (isLoading) setIsLoading(false);
+    });
+
+    async function checkUpdates() {
       try {
-        // Controlla aggiornamenti
         const update = await Updates.checkForUpdateAsync();
         if (update.isAvailable) {
           await Updates.fetchUpdateAsync();
           await Updates.reloadAsync();
         }
       } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
+        console.error('Errore aggiornamento OTA:', e);
       }
     }
-    
-    initializeApp();
-    
-    // Imposta il colore della navigation bar su Android
-    if (Platform.OS === 'android') {
-      NavigationBar.setBackgroundColorAsync(Colors.background);
-      NavigationBar.setButtonStyleAsync('light');
-    }
+
+    const androidSetup = async () => {
+      if (Platform.OS === 'android') {
+        await NavigationBar.setBackgroundColorAsync(Colors.background);
+        await NavigationBar.setButtonStyleAsync('light');
+      }
+    };
+
+    checkUpdates();
+    androidSetup();
+
+    return () => {
+      authUnsubscribe();
+    };
   }, []);
 
   if (isLoading) {
@@ -65,6 +77,9 @@ export default function App() {
     );
   }
 
+  // Route iniziale: Home per tutti
+  const initialRoute = 'Home';
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -74,7 +89,7 @@ export default function App() {
           translucent={false}
         />
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName={initialRoute}
           screenOptions={{
             headerStyle: {
               backgroundColor: Colors.background,

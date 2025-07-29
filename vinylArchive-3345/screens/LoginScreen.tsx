@@ -7,10 +7,12 @@ import {
   StyleSheet,
   SafeAreaView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-import { performLogin } from '../utils/authUtils';
-import globalStyles, { Colors, Typography } from '../styles/globalStyles';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
+import globalStyles, { Colors } from '../styles/globalStyles';
 
 type RootStackParamList = {
   'Register': undefined;
@@ -23,15 +25,30 @@ interface Props {
 export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) {
+    if (!email.trim() || !password.trim()) {
       Alert.alert('Errore', 'Inserisci email e password');
       return;
     }
 
-    await performLogin();
-    navigation.goBack();
+    setIsLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // Il listener onAuthStateChanged in App.tsx gestirà lo stato
+      // e l'utente verrà reindirizzato alla schermata principale.
+      navigation.goBack();
+    } catch (error: any) {
+      let errorMessage = 'Si è verificato un errore. Riprova.';
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        errorMessage = 'Email o password non validi. Riprova.';
+      }
+      console.error('Errore di accesso:', error);
+      Alert.alert('Errore di accesso', errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,16 +76,22 @@ export default function LoginScreen({ navigation }: Props) {
         />
         
         <TouchableOpacity 
-          style={globalStyles.primaryButton}
+          style={[globalStyles.primaryButton, isLoading && styles.disabledButton]}
           onPress={handleLogin}
+          disabled={isLoading}
         >
-          <Text style={globalStyles.buttonText}>Accedi</Text>
+          {isLoading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={globalStyles.buttonText}>Accedi</Text>
+          )}
         </TouchableOpacity>
         
         <View style={styles.footer}>
           <Text style={styles.footerText}>Non hai un account?</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Register')}
+            disabled={isLoading}
           >
             <Text style={styles.registerLink}>Registrati</Text>
           </TouchableOpacity>
@@ -92,5 +115,8 @@ const styles = StyleSheet.create({
   registerLink: {
     color: Colors.primary,
     fontWeight: '700',
-  }
+  },
+  disabledButton: {
+    backgroundColor: Colors.primary,
+  },
 });
