@@ -13,11 +13,24 @@ import { Vinyl } from '../types';
 import { useIsFocused } from '@react-navigation/native';
 import globalStyles, { Colors } from '../styles/globalStyles';
 import { getImageFallback } from '../utils/imageUtils';
+import HeaderUserButton from '../components/HeaderUserButton';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  navigation: any;
+};
 
 export default function VinylListScreen() {
   const [vinyls, setVinyls] = useState<Vinyl[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const isFocused = useIsFocused();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const loadVinyls = async () => {

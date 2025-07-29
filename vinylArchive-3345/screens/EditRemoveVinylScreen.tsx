@@ -16,6 +16,8 @@ import { Vinyl } from '../types';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import globalStyles, { Colors } from '../styles/globalStyles';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import HeaderUserButton from '../components/HeaderUserButton';
+
 
 type RootStackParamList = {
   'Edit Vinyl': { vinyl: Vinyl };
@@ -29,6 +31,12 @@ export default function RemoveVinylScreen() {
   
   // 2. Calcolo padding per Android
   const androidPadding = Platform.OS === 'android' ? (StatusBar.currentHeight || 0) + 20 : 0;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     if (isFocused) {

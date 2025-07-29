@@ -14,6 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vinyl } from '../types';
 import { useIsFocused, useNavigation, NavigationProp } from '@react-navigation/native';
 import globalStyles, { Colors, Typography, PlatformSpecificStyles } from '../styles/globalStyles';
+import HeaderUserButton from '../components/HeaderUserButton';
+
 
 enum Step {
   SelectAddVinyl,
@@ -39,6 +41,12 @@ export default function SwapVinylsScreen() {
     PlatformSpecificStyles.containerWithNavigationBar,
     { paddingBottom: androidPadding }
   ];
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const loadVinyls = async () => {

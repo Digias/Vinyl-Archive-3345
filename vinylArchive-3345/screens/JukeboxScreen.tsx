@@ -7,20 +7,32 @@ import {
   Alert,
   TextInput,
   SafeAreaView,
-  Platform,
   Image,
-  StyleSheet, // Aggiunto per gli stili locali
+  StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vinyl } from '../types';
 import { useIsFocused } from '@react-navigation/native';
 import globalStyles, { Colors } from '../styles/globalStyles';
-import { getImageFallback } from '../utils/imageUtils'; // Import aggiuntivo
+import { getImageFallback } from '../utils/imageUtils';
+import HeaderUserButton from '../components/HeaderUserButton';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  navigation: any;
+};
 
 export default function JukeboxScreen() {
   const [jukeboxVinyls, setJukeboxVinyls] = useState<Vinyl[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const isFocused = useIsFocused();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const loadJukeboxVinyls = async () => {

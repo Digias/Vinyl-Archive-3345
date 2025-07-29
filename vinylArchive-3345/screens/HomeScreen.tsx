@@ -12,7 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Vinyl } from '../types';
 import { MAX_JUKEBOX_VINYLS } from '../constants';
-import globalStyles, { Colors, Typography } from '../styles/globalStyles';
+import globalStyles, { Typography } from '../styles/globalStyles';
+import HeaderUserButton from '../components/HeaderUserButton';
 
 type RootStackParamList = {
   Jukebox: undefined;
@@ -34,6 +35,12 @@ export default function HomeScreen() {
       checkJukeboxCapacity();
     }, [])
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   const checkJukeboxCapacity = async () => {
     try {

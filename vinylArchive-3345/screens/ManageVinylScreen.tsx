@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Alert,
@@ -8,10 +8,12 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect } from '@react-navigation/native';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import { exportBackupToFile, importBackupFromFile } from '../utils/LocalBackup';
 import globalStyles, { Colors, Typography } from '../styles/globalStyles';
-import { checkAuthStatus, performLogout } from '../utils/authUtils';
+import { isUserAuthenticated } from '../utils/authUtils';
 
 type RootStackParamList = {
   'Add New Vinyl': undefined;
@@ -25,20 +27,25 @@ interface Props {
 }
 
 export default function ManageVinylScreen({ navigation }: Props) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated());
   
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authStatus = await checkAuthStatus();
-      setIsAuthenticated(authStatus);
-    };
-    checkAuth();
-  }, []);
+  // useFocusEffect si attiva ogni volta che la schermata viene visualizzata
+  useFocusEffect(
+    useCallback(() => {
+      // Controlla lo stato di autenticazione corrente e aggiorna l'UI
+      setIsAuthenticated(isUserAuthenticated());
+    }, [])
+  );
 
   const handleLogout = async () => {
-    await performLogout();
-    setIsAuthenticated(false);
-    Alert.alert('Logout effettuato', 'Sei stato disconnesso con successo');
+    try {
+      await signOut(auth);
+      setIsAuthenticated(false); // Aggiorna lo stato immediatamente
+      Alert.alert('Logout effettuato', 'Sei stato disconnesso con successo.');
+    } catch (error) {
+      console.error("Errore durante il logout: ", error);
+      Alert.alert("Errore", "Non è stato possibile effettuare il logout. Riprova.");
+    }
   };
 
   const buttons = [
@@ -66,28 +73,6 @@ export default function ManageVinylScreen({ navigation }: Props) {
     },
   ];
 
-  const authButtons = isAuthenticated ? [
-    { 
-      label: 'Logout', 
-      onPress: handleLogout,
-      subtitle: 'Esci dal tuo account',
-      color: Colors.danger
-    }
-  ] : [
-    { 
-      label: 'Accedi', 
-      onPress: () => navigation.navigate('Login'),
-      subtitle: 'Accedi al tuo account',
-      color: Colors.primary
-    },
-    { 
-      label: 'Registrati', 
-      onPress: () => navigation.navigate('Register'),
-      subtitle: 'Crea un nuovo account',
-      color: Colors.success
-    }
-  ];
-
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <Text style={globalStyles.title}>Gestione Vinili</Text>
@@ -105,17 +90,6 @@ export default function ManageVinylScreen({ navigation }: Props) {
           </TouchableOpacity>
         ))}
         
-        {authButtons.map(({ label, onPress, subtitle, color }) => (
-          <TouchableOpacity
-            key={label}
-            style={[globalStyles.card, { backgroundColor: color || Colors.cardBackground }]}
-            onPress={onPress}
-            activeOpacity={0.75}
-          >
-            <Text style={styles.buttonText}>{label}</Text>
-            {subtitle && <Text style={globalStyles.buttonSubtitle}>{subtitle}</Text>}
-          </TouchableOpacity>
-        ))}
       </ScrollView>
     </SafeAreaView>
   );
