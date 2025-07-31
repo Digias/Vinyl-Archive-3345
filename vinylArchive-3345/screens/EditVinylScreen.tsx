@@ -13,7 +13,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vinyl } from '../types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import globalStyles, { Colors, Typography, PlatformSpecificStyles } from '../styles/globalStyles';
+import globalStyles, { Colors, PlatformSpecificStyles } from '../styles/globalStyles';
 import { takePhoto, pickImage, saveImage, deleteImage } from '../utils/imageUtils';
 
 interface Props {

@@ -7,14 +7,13 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vinyl } from '../types';
 import { MAX_JUKEBOX_VINYLS } from '../constants';
 import { useIsFocused } from '@react-navigation/native';
-import globalStyles, { Colors, Typography } from '../styles/globalStyles';
+import globalStyles, { Colors } from '../styles/globalStyles';
 
 interface Props {
   navigation: any;
