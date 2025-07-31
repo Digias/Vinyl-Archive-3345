@@ -8,6 +8,11 @@ import JSZip from 'jszip';
 import uuid from 'react-native-uuid';
 import { canPerformBackup } from './authUtils';
 
+/**
+ * Esporta i dati dei vinili e le immagini associate in un unico file ZIP.
+ * L'utente deve essere autenticato per eseguire questa operazione.
+ * Il file ZIP viene creato, salvato temporaneamente e poi condiviso tramite il foglio di condivisione del sistema.
+ */
 export async function exportBackupToFile() {
   try {
     // Controllo autenticazione
@@ -63,7 +68,11 @@ export async function exportBackupToFile() {
     // Crea ZIP con JSZip
     const zip = new JSZip();
 
-    // Aggiungi tutti i file della directory al ZIP
+    /**
+     * Aggiunge ricorsivamente una directory e il suo contenuto a un oggetto JSZip.
+     * @param {string} dirPath Il percorso della directory da aggiungere.
+     * @param {JSZip} zip L'istanza di JSZip a cui aggiungere i file.
+     */
     const addDirectoryToZip = async (dirPath: string, zip: JSZip) => {
       const items = await FileSystem.readDirectoryAsync(dirPath);
 
@@ -117,6 +126,11 @@ export async function exportBackupToFile() {
   }
 }
 
+/**
+ * Importa un backup da un file ZIP selezionato dall'utente.
+ * Richiede l'autenticazione. Estrae il contenuto dello ZIP, ripristina i dati
+ * dei vinili e copia le immagini nella directory permanente dell'applicazione.
+ */
 export async function importBackupFromFile() {
   try {
     // Controllo autenticazione
