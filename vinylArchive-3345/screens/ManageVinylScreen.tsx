@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import {
   Alert,
   Text,
@@ -7,11 +7,11 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { NavigationProp, useFocusEffect } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import HeaderUserButton from '../components/HeaderUserButton';
 import { exportBackupToFile, importBackupFromFile } from '../utils/LocalBackup';
 import globalStyles, { Colors, Typography } from '../styles/globalStyles';
-import { isUserAuthenticated, canPerformBackup } from '../utils/authUtils';
+import { canPerformBackup } from '../utils/authUtils';
 
 type RootStackParamList = {
   'Add New Vinyl': undefined;
@@ -25,16 +25,7 @@ interface Props {
 }
 
 export default function ManageVinylScreen({ navigation }: Props) {
-  const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated());
   
-  // useFocusEffect si attiva ogni volta che la schermata viene visualizzata
-  useFocusEffect(
-    useCallback(() => {
-      // Controlla lo stato di autenticazione corrente e aggiorna l'UI
-      setIsAuthenticated(isUserAuthenticated());
-    }, [])
-  );
-
   const handleBackupAction = (action: () => void) => {
     if (!canPerformBackup()) {
       Alert.alert(
