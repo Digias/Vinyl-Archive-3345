@@ -6,9 +6,16 @@ import { Alert } from 'react-native';
 import { Vinyl } from '../types';
 import JSZip from 'jszip';
 import uuid from 'react-native-uuid';
+import { canPerformBackup } from './authUtils';
 
 export async function exportBackupToFile() {
   try {
+    // Controllo autenticazione
+    if (!canPerformBackup()) {
+      Alert.alert('Errore', 'Devi essere autenticato per esportare il backup');
+      return;
+    }
+
     const json = await AsyncStorage.getItem('vinyls');
     const vinyls: Vinyl[] = json ? JSON.parse(json) : [];
 
@@ -112,6 +119,12 @@ export async function exportBackupToFile() {
 
 export async function importBackupFromFile() {
   try {
+    // Controllo autenticazione
+    if (!canPerformBackup()) {
+      Alert.alert('Errore', 'Devi essere autenticato per importare un backup');
+      return;
+    }
+
     const result = await DocumentPicker.getDocumentAsync({
       type: 'application/zip',
       copyToCacheDirectory: true,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   View,
   Alert,
@@ -9,11 +9,10 @@ import {
   ScrollView,
 } from 'react-native';
 import { NavigationProp, useFocusEffect } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import HeaderUserButton from '../components/HeaderUserButton';
 import { exportBackupToFile, importBackupFromFile } from '../utils/LocalBackup';
 import globalStyles, { Colors, Typography } from '../styles/globalStyles';
-import { isUserAuthenticated } from '../utils/authUtils';
+import { isUserAuthenticated, canPerformBackup } from '../utils/authUtils';
 
 type RootStackParamList = {
   'Add New Vinyl': undefined;
@@ -37,16 +36,36 @@ export default function ManageVinylScreen({ navigation }: Props) {
     }, [])
   );
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setIsAuthenticated(false); // Aggiorna lo stato immediatamente
-      Alert.alert('Logout effettuato', 'Sei stato disconnesso con successo.');
-    } catch (error) {
-      console.error("Errore durante il logout: ", error);
-      Alert.alert("Errore", "Non è stato possibile effettuare il logout. Riprova.");
+  const handleBackupAction = (action: () => void) => {
+    if (!canPerformBackup()) {
+      Alert.alert(
+        'Funzione riservata',
+        'Devi essere autenticato per effettuare il backup e ripristino',
+        [
+          { 
+            text: 'Registrati', 
+            onPress: () => navigation.navigate('Register') 
+          },
+          { 
+            text: 'Accedi', 
+            onPress: () => navigation.navigate('Login') 
+          },
+          { 
+            text: 'Annulla', 
+            style: 'cancel'
+          }
+        ]
+      );
+      return;
     }
+    action();
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderUserButton navigation={navigation} />,
+    });
+  }, [navigation]);
 
   const buttons = [
     { 
@@ -61,15 +80,15 @@ export default function ManageVinylScreen({ navigation }: Props) {
     },
     { 
       label: 'Effettua Backup', 
-      onPress: exportBackupToFile,
+      onPress: () => handleBackupAction(exportBackupToFile),
       subtitle: 'Salva una copia dei tuoi dati',
-      color: Colors.success
+      color: Colors.cardBackground
     },
     { 
       label: 'Ripristina Backup', 
-      onPress: importBackupFromFile,
+      onPress: () => handleBackupAction(importBackupFromFile),
       subtitle: 'Carica dati da un backup',
-      color: Colors.danger
+      color: Colors.cardBackground
     },
   ];
 

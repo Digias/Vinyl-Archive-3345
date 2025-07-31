@@ -35,3 +35,11 @@ export const canSaveMoreVinyls = async () => {
 export const isPremiumUser = () => {
   return isUserAuthenticated();
 };
+
+/**
+ * Verifica se l'utente può eseguire backup/ripristino
+ * @returns {boolean} True se l'utente è autenticato
+ */
+export const canPerformBackup = () => {
+  return isUserAuthenticated();
+};
