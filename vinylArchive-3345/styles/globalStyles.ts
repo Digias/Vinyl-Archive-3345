@@ -2,15 +2,15 @@
 import { StyleSheet, TextStyle, Platform } from 'react-native';
 
 export const Colors = {
-  background: '#121212',
-  cardBackground: '#2c2c2c',
-  primary: '#1f6feb',
+  background: '#654236',
+  cardBackground: '#B38A58',
+  primary: '#CE8D66',
   success: '#28a745',
   danger: '#dc3545',
-  textPrimary: '#e0e0e0',
+  textPrimary: '#FEFFEA',
   textSecondary: '#bbb',
   textTertiary: '#aaa',
-  inputBackground: '#1f1f1f',
+  inputBackground: '#01161E',
 };
 
 export const PlatformSpecificStyles = StyleSheet.create({
