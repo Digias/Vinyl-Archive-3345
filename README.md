@@ -1,128 +1,102 @@
-# 🎵 33⁄45 Vinyl Archive
+# 🎵 Vinyl Jukebox App
 
-Una app React Native (Expo + TypeScript) per gestire la tua collezione di vinili e il Jukebox personale, con funzionalità di scambio vinili e navigazione semplice e intuitiva.
-
----
-
-## 🧩 Caratteristiche principali
-
-- **Visualizza la tua collezione di vinili**  
-  Mostra i vinili disponibili che non sono ancora nel Jukebox.
-
-- **Gestisci il Jukebox**  
-  Visualizza i vinili attualmente presenti nel Jukebox.
-
-- **Scambia vinili tra collezione e Jukebox**  
-  Scegli un vinile da aggiungere e uno da rimuovere per mantenere sempre aggiornata la tua selezione.
-
-- **Navigazione fluida**  
-  Naviga tra la schermata principale, Jukebox e la schermata di scambio con comandi chiari.
-
-- **Persistenza dati locale**  
-  I vinili e lo stato del Jukebox sono salvati in locale usando `AsyncStorage`.
-
-- **Design moderno e responsivo**  
-  Interfaccia scura, con pulsanti arrotondati e rispettosa delle aree sicure dei dispositivi (SafeAreaView).
+Una app React Native (Expo + TypeScript) per gestire la tua collezione di vinili con un jukebox virtuale. Archivia, organizza e gestisci la tua collezione di dischi in vinile con un'interfaccia intuitiva e funzionale.
 
 ---
 
-## 📱 Funzionamento dettagliato
+## ✨ Caratteristiche Principali
 
-### Schermata di scambio vinili (`SwapVinylsScreen`)
-
-1. **Seleziona un vinile da aggiungere al Jukebox**  
-   - Viene mostrata la lista dei vinili **non ancora** nel Jukebox.  
-   - Tocca un vinile per selezionarlo.  
-   - Premi **Avanti** per confermare.
-
-2. **Seleziona un vinile da rimuovere dal Jukebox**  
-   - Viene mostrata la lista dei vinili già presenti nel Jukebox.  
-   - Tocca un vinile per selezionarlo.  
-   - Premi **Esegui scambio** per completare lo scambio.
-
-3. **Schermata di conferma**  
-   - Conferma dello scambio con messaggio "Scambio completato! 🎉".  
-   - Pulsanti per fare un altro scambio o tornare alla Home o Jukebox.
-
-### Gestione dati
-
-- I dati della collezione e del Jukebox sono caricati da `AsyncStorage` ad ogni apertura della schermata di scambio.  
-- Lo scambio aggiorna lo stato `isInJukebox` dei vinili salvati.
-
-### Navigazione
-
-- Usa `@react-navigation/native` per la navigazione tra le schermate `Home`, `Jukebox` e `SwapVinylsScreen`.
+- **Gestione Collezione Vinili**: Aggiungi, modifica e rimuovi vinili dalla tua collezione
+- **Jukebox Virtuale**: Crea una selezione speciale fino a 80 vinili nel tuo jukebox
+- **Scambio Vinili**: Sostituisci facilmente i vinili nel jukebox quando è pieno
+- **Backup e Ripristino**: Salva e ripristina la tua collezione (funzione premium)
+- **Autenticazione Utente**: Sistema di registrazione e login con Firebase
+- **Gestione Immagini**: Aggiungi foto ai tuoi vinili scattandole o scegliendole dalla galleria
+- **Interfaccia Moderna**: Design scuro e intuitivo con navigazione fluida
 
 ---
 
-## 💻 Struttura del progetto
+## 📱 Schermate
 
-- `types.ts`  
-  Definizione tipi, ad esempio `Vinyl` con proprietà come `title`, `artist`, `isInJukebox`.
-
-- `SwapVinylsScreen.tsx`  
-  Schermata principale per lo scambio di vinili, con gestione step, selezione e persistenza.
-
-- `HomeScreen.tsx`, `JukeboxScreen.tsx`  
-  Altre schermate (non mostrate qui) per la gestione e visualizzazione della collezione.
-
-- `AsyncStorage`  
-  Utilizzato per memorizzare la lista dei vinili e lo stato del Jukebox in locale.
+- **Home**: Panoramica della collezione e accesso rapido a tutte le funzioni
+- **Il mio Jukebox**: Visualizza e gestisci i vinili nel tuo jukebox
+- **Tutti i miei Vinili**: Esplora l'intera collezione
+- **Aggiungi Vinile**: Inserisci nuovi vinili con tutti i dettagli
+- **Gestione Vinili**: Modifica, elimina o esegui backup dei tuoi vinili
+- **Scambia Vinili**: Sostituisci vinili quando il jukebox è pieno
+- **Login/Registrazione**: Sistema di autenticazione per utenti premium
 
 ---
 
-## 🎨 Stile e UX
+## 🔧 Tecnologie Utilizzate
 
-- Tema scuro (#121212 background) per un look moderno e meno affaticante per gli occhi.  
-- Pulsanti arrotondati con ombre leggere per profondità visiva.  
-- Margini e padding generosi per facilità d’uso anche su schermi piccoli.  
-- Uso di `SafeAreaView` e padding bottom per evitare sovrapposizioni con i tasti di navigazione Android.
-
----
-
-## 🛠️ Dipendenze principali
-
-- **React Native** con Expo  
-- `@react-navigation/native` (navigazione)  
-- `@react-native-async-storage/async-storage` (persistenza dati)  
-- TypeScript per tipizzazione sicura
+- **React Native** con Expo
+- **TypeScript** per la type safety
+- **Firebase Authentication** per l'autenticazione
+- **AsyncStorage** per la persistenza dati locale
+- **Expo ImagePicker** per la gestione delle immagini
+- **React Navigation** per la navigazione tra schermate
+- **JSZip** per la funzionalità di backup/ripristino
 
 ---
 
-## 🚀 Come avviare l’app
+## 🚀 Installazione e Avvio
 
-1. Clona il repo  
-2. Esegui `npm install` o `yarn` per installare le dipendenze  
-3. Avvia Expo con `expo start`  
-4. Usa un emulatore o un dispositivo reale per testare
+1. Clona il repository
+   ```bash
+   git clone <repository-url>
+   cd vinyl-jukebox-app
+   ```
 
----
-
-## 📩 Contatti
-
-Per suggerimenti, domande o contributi, sentiti libero di contattarmi!
-
----
-
-*Divertiti a scambiare i tuoi vinili preferiti! 🎶*
-
-
-### Get started
-
-1. Install dependencies
-
+2. Installa le dipendenze
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. Avvia il progetto
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-3. Update the app
+4. Usa l'app Expo Go sul tuo dispositivo mobile per scansionare il QR code
 
-   ```bash
-   eas update --branch main --message "... your message here ..."
-   ```
+---
+
+## 🎯 Funzionalità Dettagliate
+
+### Gestione Vinili
+- Aggiungi nuovi vinili con artista, anno, lati A/B e immagine
+- Modifica vinili esistenti
+- Elimina vinili dalla collezione
+- Ricerca vinili per artista o titolo
+
+### Jukebox Virtuale
+- Limite di 80 vinili nel jukebox
+- Aggiungi/rimuovi vinili dal jukebox
+- Sistema di scambio quando il jukebox è pieno
+
+### Autenticazione
+- Registrazione con email e password
+- Login con autenticazione Firebase
+- Funzionalità premium per utenti registrati
+
+### Backup e Ripristino
+- Esporta l'intera collezione in formato ZIP
+- Importa collezioni da backup precedenti
+- Funzione disponibile solo per utenti autenticati
+
+---
+
+## 🔐 Limitazioni Account Gratuito
+
+Gli utenti non registrati possono salvare fino a 30 vinili. Per sbloccare tutte le funzionalità e rimuovere i limiti, è necessario creare un account.
+
+---
+
+## 📞 Supporto
+
+Per problemi o domande, apri una issue sul repository o contattaci tramite email.
+
+---
+
+*Divertiti a organizzare la tua collezione di vinili! 🎶*
