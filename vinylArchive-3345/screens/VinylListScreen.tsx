@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 3 },
     elevation: 5,
-    justifyContent: "center",
+    alignItems: 'center', // Changed from justifyContent: "center"
   },
   imageColumn: {
     width: 120,
@@ -121,11 +121,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 10,
-    marginTop: 45,
+    // Removed marginTop: 45
   },
   infoColumn: {
     flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
   },
 });
